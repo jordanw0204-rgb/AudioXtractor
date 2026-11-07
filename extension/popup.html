@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>AudioXtractor</title>
+  <link rel="stylesheet" href="popup.css">
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+  <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 10v4m4-8v12m5-16v20m5-16v12m4-8v4"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5M6.1 6.1a8.3 8.3 0 0 1 12.6 1.4L20 12M4 12l1.3 4.5a8.3 8.3 0 0 0 12.6 1.4"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a19 19 0 0 1 0 18 19 19 0 0 1 0-18"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-10v.1"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 4 12 8-12 8Z"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7m4-7v7"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7V4h7l3 3h8v13H3Z"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24"><path d="m15 3 6 6-4 1-4 5-1 4-3-3-6 6m6-6-4-4 4-1 5-4Z"/></symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4"/><path d="m10 9 5 3-5 3Z"/></symbol>
+    <symbol id="i-drag" viewBox="0 0 24 24"><path d="M9 5h.01M15 5h.01M9 12h.01M15 12h.01M9 19h.01M15 19h.01" stroke-width="3"/></symbol>
+  </defs></svg>
+
+  <div class="app">
+    <header class="header">
+      <div class="brand"><span class="brand-icon"><img src="icons/icon32.png" alt=""></span><div>Audio<span class="brand-light">Xtractor</span><span class="brand-caption">GOOD SOUND. YOURS TO KEEP.</span></div></div>
+      <div class="header-actions"><button class="icon-button pin-button" id="pin-button" aria-label="Keep AudioXtractor always on top" aria-pressed="false" title="Always on top"><svg><use href="#i-pin"/></svg></button><button class="icon-button" id="help-button" aria-label="About AudioXtractor"><svg><use href="#i-info"/></svg></button></div>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="Capture method">
+      <button class="tab active" id="tab-sources" role="tab" aria-selected="true" aria-controls="panel-sources"><svg><use href="#i-wave"/></svg>Sources<span class="count" id="source-count">0</span></button>
+      <button class="tab" id="tab-recorder" role="tab" aria-selected="false" aria-controls="panel-recorder" tabindex="-1"><span class="tiny-record"></span>Recorder<span id="tab-record-dot" hidden></span></button>
+      <button class="tab" id="tab-youtube" role="tab" aria-selected="false" aria-controls="panel-youtube" tabindex="-1"><svg><use href="#i-youtube"/></svg>YouTube<span id="job-count" class="count" hidden>0</span></button>
+    </nav>
+
+    <div class="site" id="site"><div class="site-icon"><img id="site-favicon" alt="" hidden><svg id="site-fallback"><use href="#i-globe"/></svg></div><div class="site-copy"><strong id="site-title">Connect to a website</strong><span id="site-subtitle">Open a tab with audio to get started</span></div><span class="site-status" id="site-status"><i></i><span>Ready</span></span></div>
+
+    <main>
+      <section id="panel-sources" role="tabpanel" aria-labelledby="tab-sources">
+        <div class="section-heading"><div><p class="eyebrow">SOURCE EXTRACTOR</p><h1>Audio on this page<span class="heading-dot">.</span></h1></div><button class="icon-button" id="refresh-button" aria-label="Scan page for audio"><svg><use href="#i-refresh"/></svg></button></div>
+        <p class="description">Original media from the page, player and network.</p>
+        <div class="resolve-toolbar"><button id="resolve-button" class="secondary-button"><svg><use href="#i-wave"/></svg>Resolve page audio</button><span id="resolve-note">Find the full audio streams</span></div>
+        <div class="batch-toolbar"><label><input type="checkbox" id="select-sources" aria-label="Select all sources"><span id="source-selection-label">DETECTED SOURCES</span></label><div><button id="download-selected-sources" class="text-button" disabled>Download selected</button><button id="download-all-sources" class="text-button">All <svg><use href="#i-download"/></svg></button></div></div>
+        <div id="source-list" class="source-list" aria-label="Detected media sources"></div>
+        <div class="empty-state" id="source-empty"><div class="empty-wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div><h2>Waiting for a little sound</h2><p>Play audio on this page.<br>Available sources will appear here.</p></div>
+        <div class="record-nudge"><span class="nudge-icon"><svg><use href="#i-wave"/></svg></span><div><strong>Just want a piece of it?</strong><span>Record any moment as uncompressed WAV.</span></div><button class="icon-button" id="open-recorder" aria-label="Open recorder"><svg><use href="#i-arrow"/></svg></button></div>
+      </section>
+
+      <section id="panel-recorder" role="tabpanel" aria-labelledby="tab-recorder" hidden>
+        <div class="section-heading"><div><p class="eyebrow">LOSSLESS RECORDER</p><h1>Record what you hear<span class="heading-dot">.</span></h1></div><span class="quality-chip">WAV</span></div>
+        <div class="recorder-display" id="recorder-display">
+          <div class="display-top"><span id="record-status" class="record-status"><i></i> READY TO RECORD</span><span id="peak-label">−∞ dBFS</span></div>
+          <div class="timer" id="timer">00:00<span>.0</span></div>
+          <canvas id="waveform" width="720" height="160" aria-label="Auto-scaled live waveform of captured tab audio" role="img"></canvas>
+          <div class="display-bottom"><span id="capture-format">32-BIT FLOAT</span><span id="capture-size">UNCOMPRESSED</span></div>
+        </div>
+        <div class="record-controls"><button class="primary-button" id="record-button"><span class="record-circle"></span><span id="record-button-label">Start recording</span></button><button class="pause-button" id="pause-button" aria-label="Pause recording" hidden><svg><use href="#i-pause"/></svg></button></div>
+        <div class="capture-connection"><p class="capture-note" id="capture-note">Current website tab. No mic. Click Record to save audio.</p><button class="text-button" id="disconnect-recorder" title="Release tab capture. Idle capture also disconnects when you leave Recorder or close this window." hidden>Disconnect tab</button></div>
+        <div class="batch-toolbar recording-heading"><label><input type="checkbox" id="select-recordings" aria-label="Select all recordings"><span>YOUR RECORDINGS <span id="recording-count">0</span></span></label><div><button id="download-selected-recordings" class="text-button" disabled>Download selected</button><button id="download-all-recordings" class="text-button">All <svg><use href="#i-download"/></svg></button></div></div>
+        <div class="recording-list" id="recording-list"></div>
+        <div class="library-empty" id="library-empty"><svg><use href="#i-folder"/></svg><span>Your next great find starts here.</span></div>
+        <p class="drag-note"><svg><use href="#i-drag"/></svg><span id="recording-drag-note">Drag a recording, or select several and drag together.</span></p>
+      </section>
+
+      <section id="panel-youtube" role="tabpanel" aria-labelledby="tab-youtube" hidden>
+        <div class="section-heading"><div><p class="eyebrow">CONVERTER & EXPORTS</p><h1>YouTube to MP3<span class="heading-dot">.</span></h1></div><span class="quality-chip">320 kbps</span></div>
+        <p class="description">One link or a whole lineup. Converted on your device.</p>
+        <label class="sr-only" for="youtube-links">YouTube video links, one per line</label><textarea id="youtube-links" placeholder="Paste YouTube links, one per line…" spellcheck="false"></textarea>
+        <div class="youtube-controls"><button class="secondary-button" id="youtube-current"><svg><use href="#i-youtube"/></svg>Use current page</button><button class="primary-button" id="youtube-convert"><svg><use href="#i-arrow"/></svg>Convert links</button></div>
+        <p class="conversion-note">MP3 is a compressed export. Original sources stay unchanged.</p>
+        <div class="batch-toolbar"><label><input type="checkbox" id="select-jobs" aria-label="Select all completed conversions"><span id="jobs-selection-label">YOUR AUDIO</span></label><div><button id="download-selected-jobs" class="text-button" disabled>Download selected</button><button id="download-all-jobs" class="text-button">All <svg><use href="#i-download"/></svg></button></div></div>
+        <div id="jobs-list" class="jobs-list"></div><div class="library-empty" id="jobs-empty"><svg><use href="#i-youtube"/></svg><span>Drop in a link. Take the audio with you.</span></div>
+        <p class="drag-note"><svg><use href="#i-drag"/></svg>Drag finished audio straight into folders or audio apps.</p>
+      </section>
+    </main>
+
+    <footer><span><svg><use href="#i-lock"/></svg><span id="companion-state">On your device. Always.</span></span><span>v2.3.0 <span class="footer-mark">AX</span></span></footer>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="help-dialog" aria-labelledby="help-title"><div class="dialog-heading"><h2 id="help-title">A closer look.</h2><button class="icon-button" id="close-help" aria-label="Close help"><svg><use href="#i-close"/></svg></button></div><div class="help-body"><h3>A window that stays with you</h3><p>Resize any edge of this window; its size and position are remembered. The pin next to Info keeps this window above other apps. The panel follows the last active website tab.</p><h3>The original audio</h3><p>Sources discovers page players, media links, metadata and network responses. Resolve page audio uses the local companion to find complete audio streams on supported websites. Resolved audio is saved without MP3 conversion; video sources are labeled. Protected or private players may not expose downloadable audio.</p><h3>Drag audio into your workflow</h3><p>Recordings prepare for dragging automatically. Drag a row into a folder or an app that accepts audio files. Check several rows to drag them together. Download selected and All export multiple files in one action.</p><h3>YouTube conversion</h3><p>Use current page or paste up to 50 individual video links. Two conversions run at once. Completed MP3s can be played, selected, dragged or downloaded. MP3 is lossy; WAV recording and original-source downloads remain separate. Some videos require sign-in or are unavailable.</p><h3>Quick tab recording</h3><p>Opening Recorder connects the current website and shows its live waveform. Start recording saves audio immediately; Stop &amp; save keeps the tab ready for another take. No Share picker. Chrome can briefly interrupt playback when the tab first connects. Keeping that connection ready avoids another audio-routing change for each take. Disconnect tab, leaving Recorder while idle, or closing the idle window releases capture. An active recording can continue with this window closed.</p><h3>Recording fidelity</h3><p>Recordings preserve Chrome's captured samples in uncompressed 32-bit float WAV. Chrome may mix or resample before capture. Pause excludes that section. The panel can close while capture continues. Stop before closing the browser. Each WAV is limited to 2 GB or available storage.</p><h3>Windows companion</h3><p>Pinning, native dragging, resolution and conversion use a local .NET companion with your installed yt-dlp and FFmpeg. It is only accessible to this extension through Chrome native messaging. No cloud conversion service or microphone.</p><p id="companion-help-status"></p><p>For another Chrome/Edge installation, run this project command with its extension ID:</p><code id="setup-command"></code><p>Companion files are in your local AudioXtractor library. Uninstalling the extension removes its browser WAV library; downloaded files and companion files remain on disk.</p></div></dialog>
+  <dialog id="delete-dialog" aria-labelledby="delete-title"><h2 id="delete-title">Delete this audio?</h2><p>This removes the local copy. Download it first if you want to keep it.</p><div class="dialog-actions"><button class="secondary-button" id="cancel-delete">Keep it</button><button class="danger-button" id="confirm-delete">Delete audio</button></div></dialog>
+  <script type="module" src="popup.js"></script>
+  <script type="module" src="enhancements.js"></script>
+</body>
+</html>

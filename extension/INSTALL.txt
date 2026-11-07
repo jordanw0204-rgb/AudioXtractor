@@ -1,0 +1,18 @@
+AudioXtractor 2.3.0
+
+1. Extract this ZIP to a permanent folder.
+2. Open chrome://extensions, brave://extensions, or edge://extensions.
+3. Enable Developer mode and click Load unpacked.
+4. Select this folder, which contains manifest.json.
+5. Open a website, then click AudioXtractor in your extensions menu.
+
+Source downloads and WAV recording work without the optional companion.
+Native dragging, always-on-top, stream resolution and YouTube conversion
+require the separate Windows companion release asset.
+
+Setup guide: https://github.com/jordanw0204-rgb/AudioXtractor/blob/main/docs/INSTALLATION.md
+Releases: https://github.com/jordanw0204-rgb/AudioXtractor/releases
+
+To update, save active recordings, replace the files in the same permanent
+folder, then click Reload on the extensions page. Keeping that folder path
+preserves the unpacked extension ID. Export recordings before uninstalling.

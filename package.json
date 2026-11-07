@@ -1,0 +1,19 @@
+{
+  "name": "audioxtractor",
+  "version": "2.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Original media downloads and uncompressed tab audio recording.",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/serve.mjs",
+    "launch": "node scripts/launch.mjs",
+    "setup:companion": "node scripts/install-native.mjs",
+    "test:native": "node tests/native.mjs",
+    "test:browser": "node tests/ui.mjs",
+    "test:audio": "node tests/browser.mjs"
+  },
+  "engines": { "node": ">=22" }
+}
